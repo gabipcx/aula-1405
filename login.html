@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login de Usuário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login de Usuário</h1>
+        <form id="login-form">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Entrar</button>
+        </form>
+        <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+    </div>
+
+    <script>
+        document.getElementById("login-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            const user = JSON.parse(localStorage.getItem("user"));
+            
+            if (user && user.email === email && user.password === password) {
+                localStorage.setItem("loggedIn", JSON.stringify(user));  // Salvar como usuário logado
+                alert("Login realizado com sucesso!");
+                window.location.href = "index.html";  // Redireciona para a página de compras
+            } else {
+                alert("Credenciais inválidas! Tente novamente.");
+            }
+        });
+    </script>
+</body>
+</html>

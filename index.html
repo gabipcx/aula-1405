@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrinho de Compras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Loja Virtual</h1> <!-- Formulário para adicionar produtos -->
+    <form id="produtoForm"> <input type="text" id="codigo" placeholder="Código do Produto" required /> <input
+            type="text" id="nome" placeholder="Nome do Produto" required /> <input type="number" id="quantidade"
+            placeholder="Quantidade" min="1" required /> <input type="number" id="valorUnitario"
+            placeholder="Valor Unitário" min="0.01" step="0.01" required /> <button type="submit">Adicionar ao
+            Carrinho</button> </form> <!-- Tabela do carrinho -->
+    <h2>Carrinho de Compras</h2>
+    <table id="carrinhoTabela">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Valor Unitário</th>
+                <th>Total</th>
+                <th>Remover</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>   // Função para carregar o carrinho do localStorage   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];   const tbody = document.querySelector('#carrinhoTabela tbody');   // Função para exibir o carrinho na tabela   function exibirCarrinho() {     tbody.innerHTML = '';     carrinho.forEach((produto, index) => {       const tr = document.createElement('tr');       tr.innerHTML = `         <td>${produto.codigo}</td>         <td>${produto.nome}</td>         <td>${produto.quantidade}</td>         <td>R$ ${produto.valorUnitario.toFixed(2)}</td>         <td>R$ ${(produto.quantidade * produto.valorUnitario).toFixed(2)}</td>         <td><button data-index="${index}">Remover</button></td>       `;       tbody.appendChild(tr);     });   }   // Atualizar o localStorage sempre que o carrinho mudar   function atualizarStorage() {     localStorage.setItem('carrinho', JSON.stringify(carrinho));   }   // Evento de submissão do formulário   document.getElementById('produtoForm').addEventListener('submit', function(e) {     e.preventDefault();     const codigo = document.getElementById('codigo').value.trim();     const nome =
